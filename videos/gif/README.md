@@ -1,31 +1,31 @@
 # GIF 編
 
 **GIFは「辞書」で縮む！？動く画像の中身を1バイトずつのぞいてみた【ずんだもん解説】** — https://youtu.be/1bv3UpIbnM4
-（約 10 分、9 シーン。動画ファイルは Release `gif-v1`）
+(約 10 分、9 シーン。動画ファイルは Release `gif-v1`)
 
-ずんだもんの動くスタンプ（8 コマ、28,615 バイト。PNG なら 1 コマで 42,099 バイト）で、
+ずんだもんの動くスタンプ (8 コマ、28,615 バイト。PNG なら 1 コマで 42,099 バイト) で、
 ファイルの中身 → 色の表 → 256 色の限界とディザ → LZW → 符号の長さ → 動くしくみ → 3 形式の比較、の順に解説する。
 
 ## ファイル
 
 | 場所 | 中身 |
 |---|---|
-| `scenes/` | S01〜S09。見本は `s05_lzw.py`（docs/visual-design.md の「分かりやすさの基準」の元） |
+| `scenes/` | S01〜S09。見本は `s05_lzw.py` (docs/visual-design.md の「分かりやすさの基準」の元) |
 | `vlib/data.py` | 色の表、色番号、各コマの画面、LZW の読み取りの記録、各コマを PNG にした大きさ |
-| `tools/gifanalyze.py` | 自前の GIF 読み取り（LZW 復号、インターレース、消し方。Pillow と全コマ一致） |
+| `tools/gifanalyze.py` | 自前の GIF 読み取り (LZW 復号、インターレース、消し方。Pillow と全コマ一致) |
 | `tools/make_data.py` | 動くスタンプと、色数を減らした猫の写真を作る |
-| `tools/thumbnail.py` | サムネの案（公開は B） |
+| `tools/thumbnail.py` | サムネの案 (公開は B) |
 
 ## データの用意
 
-`data/cat*.gif`・`cat_q80.jpg` は猫の写真（CC0）から作ったもので、リポジトリに入っている。
+`data/cat*.gif`・`cat_q80.jpg` は猫の写真 (CC0) から作ったもので、リポジトリに入っている。
 動くスタンプ `data/zunda_anim.gif` は立ち絵から作るので入っていない。
 
 ```bash
-uv run python videos/gif/tools/make_data.py    # 立ち絵（assets/characters）が必要。スタンプと猫の GIF を作る
+uv run python videos/gif/tools/make_data.py    # 立ち絵 (assets/characters) が必要。スタンプと猫の GIF を作る
 ```
 
 ## この動画で決めたこと
 
-- LZW の練習用の並び：16 色の猫の写真の 196 行目、205〜214 列（15 14 12 14 12 12 14 14 12 12 → 15 14 12 259 260 261）。
+- LZW の練習用の並び：16 色の猫の写真の 196 行目、205〜214 列 (15 14 12 14 12 12 14 14 12 12 → 15 14 12 259 260 261)。
 - ディザの比較は 8 色。256 色の段は淡いので、元と GIF の両方に同じコントラスト強調をかけて見せている。

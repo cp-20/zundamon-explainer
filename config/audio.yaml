@@ -1,11 +1,11 @@
-# 音の仕上げ（zunda/master.py）。docs/audio-and-subtitles.md を参照。
+# 音の仕上げ (zunda/master.py)。docs/audio-and-subtitles.md を参照。
 sample_rate: 48000
 target_lufs: -14.0          # YouTube の基準。limiter のあと測り直して合わせる
 bgm_gain_db: -17.0
 se_gain_db: -8.0
 duck:
   depth_db: -9.0            # 台詞の間だけ BGM を下げる量
-  hold_gap: 2.0             # これより短い台詞のすき間では下げたまま（会話中に上下させない）
+  hold_gap: 2.0             # これより短い台詞のすき間では下げたまま (会話中に上下させない)
   attack: 0.3               # 次の台詞の何秒前から下げ始めるか
   release: 1.2              # 長い間に入ったとき、何秒かけて戻すか
 bgm_crossfade: 1.5

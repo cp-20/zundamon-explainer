@@ -1,4 +1,4 @@
-# PNG 編（第 1 作）。公開済み：https://youtu.be/BhYgIYsvkBo
+# PNG 編 (第 1 作)。公開済み：https://youtu.be/BhYgIYsvkBo
 slug: png
 title: 6.9MBの画像が333KBに！？1バイトも消えないPNG圧縮の仕組み【ずんだもん解説】
 youtube: https://youtu.be/BhYgIYsvkBo
@@ -35,7 +35,7 @@ user_dict:                       # config/readings.yaml の共通分に足す
   - [Up, アップ, 1]
   - [Average, アベレージ, 1]
   - [a, エー, 1]
-  # 数字＋英字は数字として読まれる（0A→ゼロアンペア）ので、reading_fix でカタカナにしてからここで拾う
+  # 数字＋英字は数字として読まれる (0A→ゼロアンペア) ので、reading_fix でカタカナにしてからここで拾う
   - [ゼロディー, ゼロディー, 3]
   - [ゼロエー, ゼロエー, 3]
   - [イチエー, イチエー, 3]
@@ -47,7 +47,7 @@ reading_fix:
   - [1A, イチエー]
   - [4E, ヨンイー]
   - ["89", ハチキュー]
-voice:                           # 公開版を作ったときの間の取り方（その後の改良は config/voice.yaml）
+voice:                           # 公開版を作ったときの間の取り方 (その後の改良は config/voice.yaml)
   gaps: {same: 0.32, switch: 0.5, answer: 0.5, head: 0.6, tail: 1.0}
   sentence_pause: null
   revoice: []

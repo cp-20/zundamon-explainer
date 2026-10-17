@@ -1,4 +1,4 @@
-# 素材の一覧（自前のものではないので、このリポジトリには含めない）。
+# 素材の一覧 (自前のものではないので、このリポジトリには含めない)。
 # tools/fetch_assets.py がここを読んで assets/ に落とす。ライセンスの要点は THIRD_PARTY.md。
 bgm:
   provider: 甘茶の音楽工房
@@ -34,12 +34,12 @@ fonts:
     JetBrainsMono-Regular.ttf: {family: JetBrains Mono, url: https://github.com/JetBrains/JetBrainsMono/releases/download/v2.304/JetBrainsMono-2.304.zip, member: fonts/ttf/JetBrainsMono-Regular.ttf}
     JetBrainsMono-Bold.ttf: {family: JetBrains Mono, url: https://github.com/JetBrains/JetBrainsMono/releases/download/v2.304/JetBrainsMono-2.304.zip, member: fonts/ttf/JetBrainsMono-Bold.ttf}
 characters:
-  # 坂本アヒル 様の立ち絵素材（PSD）。自動では取得しない。各自で入手して tools/export_psd_parts.py で書き出す。
+  # 坂本アヒル 様の立ち絵素材 (PSD)。自動では取得しない。各自で入手して tools/export_psd_parts.py で書き出す。
   author: 坂本アヒル
   note: 配布ページの利用規約に従うこと。立ち絵素材そのもの（PSD・書き出した部品）は再配布しない。
   names: [zundamon, metan]
 
-# 概要欄とエンドクレジットに出す文（tools/description.py と各動画の最後のシーンで使う）
+# 概要欄とエンドクレジットに出す文 (tools/description.py と各動画の最後のシーンで使う)
 credits:
   - [音声, ["VOICEVOX:ずんだもん", "VOICEVOX:四国めたん"]]
   - [立ち絵, [坂本アヒル 様]]

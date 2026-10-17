@@ -1,6 +1,6 @@
 # 立ち絵の置き方と表情。layer のキーは assets/characters/<name>/parts.json のグループパス
-# （坂本アヒル式 PSD を tools/export_psd_parts.py で書き出したもの）。
-# "*名前" はラジオ式（1 つだけ表示）、"!名前" は常に表示のグループ。
+# (坂本アヒル式 PSD を tools/export_psd_parts.py で書き出したもの)。
+# "*名前" はラジオ式 (1 つだけ表示)、"!名前" は常に表示のグループ。
 speakers:
   Z:
     name: zundamon
