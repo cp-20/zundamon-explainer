@@ -20,8 +20,34 @@ import os
 
 # PV_RES=540 で 960×540 の試し描画（時刻は同じ）
 _res = int(os.environ.get("PV_RES", H))
+# 時間の一部だけを描く（zunda/build.py が使う）。PV_FROM 以上 PV_TO 未満に「始まる」アニメーションだけを描き、
+# それより前は描かずに状態だけ進め（Manim の skip）、PV_TO に達したら打ち切る。
+# PV_CLIP=1 のときは「範囲に少しでもかかる」アニメーションを描く（部分の試写用）。
+_FROM = float(os.environ.get("PV_FROM", "0") or 0)
+_TO = float(os.environ.get("PV_TO", "inf") or "inf")
+_CLIP = os.environ.get("PV_CLIP") == "1"
+_WINDOW = _FROM > 0 or _TO != float("inf")
 config.pixel_width, config.pixel_height, config.frame_rate = W * _res // H, _res, FPS
+
+# 速さ：Manim の描画の重い所を差し替える（SVG のパスの共有、画像の部分だけの合成。zunda/fastcam.py）
+from . import fastcam  # noqa: E402,F401
+
+# 速さ：Manim の書き出し（あとで立ち絵と字幕を重ねて書き直す中間ファイル）は、GPU（NVENC）があればそれで書く
+def _manim_encoder():
+    import av
+    from .compose import use_nvenc
+    if "h264_nvenc" in av.codecs_available and use_nvenc():
+        config.video_codec = "h264_nvenc"
+        config.video_encoder_options = {"preset": "p1", "rc": "vbr", "cq": "16", "b": "0"}
+    else:   # 中間のファイルなので速さ優先
+        config.video_codec = "libx264"
+        config.video_encoder_options = {"preset": "ultrafast", "crf": "14"}
+
+
+from .paths import config as config_yaml  # noqa: E402
+_manim_encoder()
 config.background_color = "#14161c"
+
 
 BG = "#14161c"
 INK = "#eef0f4"
@@ -73,6 +99,21 @@ class PScene(Scene):
                 assert k not in self.cues, f"キュー名が重複: {k}"
                 self.cues[k] = v
         self.log = dict(scene=sid, duration=self.tl["duration"], plays=[], states=[], se=[], late=[], waits=[])
+        if _WINDOW:
+            # 描かないアニメーション（skip）の間は、画面の計算もしない（Manim は skip 中も 1 コマ描いてしまう）
+            r = self.renderer
+            orig_update, orig_static = r.update_frame, r.save_static_frame_data
+
+            def update_frame(*a, **k):
+                if not r.skip_animations:
+                    return orig_update(*a, **k)
+
+            def save_static(scene, mobs):
+                if not r.skip_animations:
+                    return orig_static(scene, mobs)
+                r.static_image = None
+
+            r.update_frame, r.save_static_frame_data = update_frame, save_static
         self._seg_start = 0.0
 
     # ---- 時刻 ----
@@ -104,8 +145,23 @@ class PScene(Scene):
         self.log["se"].append(dict(name=name, t=round(self.now + offset, 3), gain=gain))
 
     # ---- 再生と記録 ----
+    def _run_time(self, args, kw):
+        if "run_time" in kw:
+            return kw["run_time"]
+        rts = [getattr(a, "run_time", 1.0) for a in args if isinstance(a, Animation)]
+        return max(rts) if rts else 1.0
+
     def play(self, *args, **kw):
         t0 = self.now
+        if _WINDOW:
+            t1 = t0 + self._run_time(args, kw)
+            if t0 >= _TO - 1e-6:
+                self._window_end()
+            # 下の端：PV_CLIP なら範囲にかかるもの、そうでなければ範囲内で始まるもの（分けて並べたときに重ならない）
+            draw = (t1 > _FROM + 1e-6 if _CLIP else t0 >= _FROM - 1e-6) and t0 < _TO - 1e-6
+            self.renderer._original_skipping_status = not draw
+            if draw and not hasattr(self, "_win_start"):
+                self._win_start = t0
         super().play(*args, **kw)
         self.log["plays"].append(dict(t0=round(t0, 3), t1=round(self.now, 3),
                                       anims=[type(a).__name__ for a in args if isinstance(a, Animation)]))
@@ -115,8 +171,23 @@ class PScene(Scene):
         super().wait(duration, **kw)
         self._snapshot("wait")
 
+    def _window_end(self):
+        """部分の描画の終わり：実際に描いた範囲を書き残して打ち切る"""
+        from manim.utils.exceptions import EndSceneEarlyException
+        self._write_window(self.now)
+        raise EndSceneEarlyException()
+
+    def _write_window(self, end):
+        out = BUILD / "render"
+        out.mkdir(parents=True, exist_ok=True)
+        tag = os.environ.get("PV_TAG", "")
+        start = getattr(self, "_win_start", end)
+        (out / f"{self.log['scene']}{tag}.window.json").write_text(json.dumps(dict(start=start, end=end)))
+
     def finish(self):
         self.at(self.tl["duration"] - 1 / FPS)
+        if _WINDOW:
+            self._write_window(self.now)
         self.log["end"] = round(self.now, 3)
         out = BUILD / "log"
         out.mkdir(parents=True, exist_ok=True)

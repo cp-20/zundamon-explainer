@@ -37,14 +37,15 @@
 
 ## 5. 通しで作る
 
-- `bin/build_all.sh <name>` で 1080p の通しを作る (4 並列で 1 時間前後)。
+- `bin/build_all.sh <name>` で 1080p の通しを作る。
 - 確かめること ([quality-checks.md](quality-checks.md))：全シーンの検査 0 件、つなぎ目の差、音量 −14 LUFS、
   1080p から何枚か切り出して文字の大きさ、チャプターの時刻。
 - 480p の試写版と概要欄 (`build/out/description.txt`) を依頼者に渡す。確かめていないこと (音を聞いていない、動きを通しで見ていない、など) も添える。
 
 ## 6. 指摘を直す
 
-- 直したシーンだけを 1080p で描き直し、`uv run python -m zunda.master all` (`ZX_VIDEO=<name>`) で音と結合をやり直す。
+- 直した所は `bin/pipeline.sh <name> SNN --line SNN_MM` で、その台詞のあたりだけを書き出して確かめる ([speed.md](speed.md))。
+- 直したシーンだけを `bin/pipeline.sh <name> SNN --res 1080` で描き直し、`uv run python -m zunda.master all` (`ZX_VIDEO=<name>`) で音と結合をやり直す。
 - 台詞を直したら、その台詞の音声を作り直す。キューの位置が変わるので、そのシーンは描き直しが必要。
 - 間の長さなど全体の音声のタイミングを変えたら、全シーンの描き直しになる。秒数を直接書いた所 (`self.at(12.3)`) は台詞のキューに置き換えておく。
 

@@ -11,4 +11,5 @@
 | [agents.md](agents.md) | シーン担当のエージェントへの頼み方と、届いたものの見方 |
 | [publishing.md](publishing.md) | タイトル、サムネ、概要欄、クレジット、ライセンス、成果物の置き場所 |
 | [setup.md](setup.md) | 環境と素材の用意 |
+| [speed.md](speed.md) | 書き出しを速くする仕組み、部分だけの書き出し |
 | [templates/](templates/) | 新しい動画の雛形 (`video.yaml`、`PLAN.md`、`AGENT_BRIEF.md`) |

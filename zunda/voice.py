@@ -199,10 +199,14 @@ def build_scene(scene):
     return tl
 
 
-if __name__ == "__main__":
-    import sys
+def main(sids=None):
     setup_dict()
     sc = load()
-    for sid in (sys.argv[1:] or sc):
+    for sid in (sids or sc):
         tl = build_scene(sc[sid])
         print(sid, tl["duration"], "s", max(abs(l["calc_dur_err"]) for l in tl["lines"]))
+
+
+if __name__ == "__main__":
+    import sys
+    main(sys.argv[1:])

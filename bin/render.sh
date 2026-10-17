@@ -2,7 +2,7 @@
 # Manim で 1 シーンを描く（映像のみ）。  bin/render.sh <video> S05 [解像度=1080]  → videos/<video>/build/render/S05.mp4
 set -e
 source "$(dirname "$0")/env.sh"
-S=$1; RES=${2:-1080}
+S=$1; RES=${2:-1080}   # 1 プロセスでシーン全体を描くだけ（ふだんは bin/pipeline.sh）
 F=$(ls "$VDIR"/scenes/$(echo "$S" | tr A-Z a-z)_*.py)
 B="$VDIR/build"
 mkdir -p "$B/media" "$B/render"

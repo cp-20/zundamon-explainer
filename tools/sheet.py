@@ -15,11 +15,18 @@ TW, TH = 576, 324
 FONT = ImageFont.truetype(str(ROOT / "assets/fonts/MPLUSRounded1c-Bold.ttf"), 17)
 
 
-def frame_at(video, t):
-    p = subprocess.run(["ffmpeg", "-v", "error", "-ss", f"{t:.3f}", "-i", str(video), "-frames:v", "1",
-                        "-vf", f"scale={TW}:{TH}", "-f", "rawvideo", "-pix_fmt", "rgb24", "-"],
+def frames_at(video, times, fps=30):
+    """times の各時刻のフレームを、動画を 1 回読むだけで取り出す（1 枚ずつ seek するより速い）"""
+    idx = sorted({int(round(t * fps)) for t in times})
+    sel = "+".join(f"eq(n\\,{i})" for i in idx)
+    p = subprocess.run(["ffmpeg", "-v", "error", "-i", str(video), "-vf", f"select={sel},scale={TW}:{TH}",
+                        "-fps_mode", "passthrough", "-f", "rawvideo", "-pix_fmt", "rgb24", "-"],
                        capture_output=True, check=True)
-    return Image.frombytes("RGB", (TW, TH), p.stdout)
+    n = TW * TH * 3
+    got = {i: Image.frombytes("RGB", (TW, TH), p.stdout[k * n:(k + 1) * n]) for k, i in enumerate(idx)
+           if (k + 1) * n <= len(p.stdout)}
+    blank = Image.new("RGB", (TW, TH))
+    return [got.get(int(round(t * fps)), blank) for t in times]
 
 
 def speaking(tl, t):
@@ -45,9 +52,10 @@ def main(sid, video=None):
     cap_h = 64
     sheet = Image.new("RGB", (cols * TW, rows * (TH + cap_h)), (240, 240, 240))
     d = ImageDraw.Draw(sheet)
+    imgs = frames_at(video, times)
     for k, t in enumerate(times):
         x, y = (k % cols) * TW, (k // cols) * (TH + cap_h)
-        sheet.paste(frame_at(video, t), (x, y))
+        sheet.paste(imgs[k], (x, y))
         ln = speaking(tl, t)
         txt = f"{t:6.2f}s  " + (f"{ln['id'][-2:]} {ln['speaker']}: {ln['text']}" if ln else "（無音）")
         # 長い台詞は折り返す

@@ -32,8 +32,8 @@ def forbidden_mask():
         c = CHAR[sp]
         for ex in EXPR[sp]:
             for mo in ("closed", "half", "open"):
-                a, ox, oy = sprite(sp, ex, mo, False)
-                al = a[..., 3] > 0.1
+                (_, inv), ox, oy = sprite(sp, ex, mo, False)
+                al = inv[..., 0] < 230   # α > 0.1
                 x, y = c["x"] + ox, c["y"] + oy - 10  # 話し始めの跳ねの分
                 h, w = al.shape
                 ys, xs = slice(max(y, 0), min(y + h, H)), slice(max(x, 0), min(x + w, W))

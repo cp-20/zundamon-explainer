@@ -1,0 +1,8 @@
+# 書き出しの設定（zunda/build.py・zunda/compose.py）。docs/speed.md を参照。
+jobs: 0                 # 並列数。0 なら CPU のコア数から決める
+chunk_seconds: 6        # 1 シーンをこの秒数くらいずつに分けて並行で描く（Manim は 1 プロセス 1 コア。重い所が偏るので細かめに）
+encoder: auto           # auto（NVENC があれば使う）/ nvenc / x264
+nvenc: {preset: p5, cq: 19}      # GPU（NVIDIA）での書き出し
+nvenc_sessions: 3       # 同時に NVENC を使う処理の数（家庭用の GPU は同時の本数に上限がある。残りは CPU で書く）
+x264: {preset: veryfast, crf: 17}
+preview_res: 540

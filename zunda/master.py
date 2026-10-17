@@ -113,7 +113,8 @@ def write_wav(path, a):
                    input=a.astype(np.float32).tobytes(), check=True)
 
 
-def build(scenes, name):
+def render_audio(scenes, name):
+    """声・効果音・BGM を混ぜて −14 LUFS にした wav を build/out/<name>.wav に書く"""
     out = BUILD / "out"
     out.mkdir(parents=True, exist_ok=True)
     audio, offs = mix(scenes)
@@ -123,6 +124,17 @@ def build(scenes, name):
     got = pyln.Meter(SR).integrated_loudness(load(wav))
     if abs(got - TARGET_LUFS) > 0.05:
         write_wav(wav, audio * db(TARGET_LUFS - got))
+    return wav, offs
+
+
+def scene_audio(sid):
+    """1 シーン分の音（試写用）"""
+    return render_audio([sid], sid)[0]
+
+
+def build(scenes, name):
+    out = BUILD / "out"
+    wav, offs = render_audio(scenes, name)
     lst = out / f"{name}.txt"
     lst.write_text("".join(f"file '{BUILD / 'comp' / (s + '.mp4')}'\n" for s in scenes))
     mp4 = out / f"{name}.mp4"
