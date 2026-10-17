@@ -1,0 +1,22 @@
+# 作業で生まれるもの
+build/
+cache/
+.venv/
+__pycache__/
+*.mp4
+*.wav
+media/
+
+# 素材（再配布できない。tools/fetch_assets.py と docs/setup.md で用意する）
+assets/bgm/
+assets/se/
+assets/fonts/
+assets/characters/
+
+# 立ち絵から作った画像（立ち絵素材の再配布にあたるので含めない。各動画の tools で作る）
+videos/png/data/zundamon.png
+videos/png/data/zundamon_meta.png
+videos/jpeg/data/zundamon.png
+videos/jpeg/data/zunda_white.png
+videos/jpeg/data/zunda_q80.jpg
+videos/gif/data/zunda_anim.gif

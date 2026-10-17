@@ -1,0 +1,36 @@
+# JPEG 編（第 2 作）。公開済み：https://youtu.be/dZP4YsrL6nw
+slug: jpeg
+title: 写真は「波」でできている！？JPEG圧縮の仕組みをやさしく解説【ずんだもん解説】
+youtube: https://youtu.be/dZP4YsrL6nw
+thumbnail: E
+description: |
+  同じ写真が、PNGだと約21万バイト、JPEGだと約2万4千バイト。JPEGは何を「捨てて」小さくしているのか？
+  明るさと色・色の間引き・8×8のブロック・DCT（波に分ける）・量子化・ハフマン符号まで、実際のJPEGファイルを自前で読み解いて、高校生にも分かるように解説します。
+  画面の数値は、すべて実物のファイルから計算した値です。前回のPNG編とあわせてどうぞ。
+chapters:
+  S01: JPEGは捨てている？
+  S02: 明るさと色
+  S03: 色を間引く
+  S04: 8×8のブロック
+  S05: 波に分ける（DCT）
+  S06: 割って丸める（量子化）
+  S07: ジグザグとハフマン符号
+  S08: 戻してみる・ブロックノイズ
+  S09: ファイルの中身
+  S10: 実験：品質と大きさ
+  S11: まとめ
+extra_credits:
+  - [写真, ["Chelsea the cat（Stefan van der Walt, CC0）／scikit-image のサンプル画像"]]
+bgm:
+  default: main
+  scenes: {S05: main_alt, S06: main_alt, S07: main_alt, S08: main_alt, S09: main_alt, S11: outro}
+user_dict:
+  - [DCT, ディーシーティー, 6]
+  - [EOB, イーオービー, 5]
+  - [Cb, シービー, 3]
+  - [Cr, シーアール, 3]
+  - [Y, ワイ, 1]
+voice:
+  gaps: {same: 0.32, switch: 0.5, answer: 0.5, head: 0.6, tail: 1.0}
+  sentence_pause: null
+  revoice: []

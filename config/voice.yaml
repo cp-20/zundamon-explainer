@@ -1,0 +1,17 @@
+# VOICEVOX（GPU 版を docker で 127.0.0.1:50021 に）。docs/voicevox.md を参照。
+url: http://127.0.0.1:50021
+speakers:                       # PLAN.md の Z / M → VOICEVOX の話者
+  Z: {speaker: 3, speedScale: 1.05, intonationScale: 1.15}   # ずんだもん（ノーマル）
+  M: {speaker: 2, speedScale: 1.0, intonationScale: 1.1}     # 四国めたん（ノーマル）
+pre_phoneme: 0.08
+post_phoneme: 0.12
+
+# 台詞と台詞の間（秒）。台詞の行末の (+1.2) はこれに足される。
+gaps:
+  same: 0.4        # 同じ人が続けて話す
+  switch: 0.55     # 話し手が交代する
+  answer: 0.75     # 「？」で終わった問いかけに、相手が答える
+  head: 0.6        # シーンの頭の無音
+  tail: 1.0        # シーンの終わりの無音
+sentence_pause: 0.55   # 1 つの台詞の途中で文が切れる所（。！？）の最短の間。null で VOICEVOX まかせ
+revoice: [シュ]        # 無声化すると別の音に聞こえる拍（「圧縮」がアッスクに聞こえる）を有声に戻す

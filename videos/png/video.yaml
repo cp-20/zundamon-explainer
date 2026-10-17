@@ -1,0 +1,53 @@
+# PNG 編（第 1 作）。公開済み：https://youtu.be/BhYgIYsvkBo
+slug: png
+title: 6.9MBの画像が333KBに！？1バイトも消えないPNG圧縮の仕組み【ずんだもん解説】
+youtube: https://youtu.be/BhYgIYsvkBo
+thumbnail: B                     # tools/thumbnail.py の案のうち、公開に使ったもの
+description: |
+  ずんだもんの画像は、色の数字をそのまま並べると約690万バイト。でもPNGファイルは333KB。
+  PNGファイルの中身を1バイトずつのぞいて、画像がどうやって小さくなっているのか（フィルタ・LZ77・ハフマン符号・DEFLATE）を、実際のデータで解説します。
+  画面の数値は、すべて実物のPNGファイルから計算した値です。
+chapters:
+  S01: 333KBの謎
+  S02: シグネチャ（先頭8バイト）
+  S03: チャンク
+  S04: 全体の地図
+  S05: フィルタ
+  S06: LZ77
+  S07: ハフマン符号
+  S08: DEFLATE と zlib
+  S09: 実験：4枚の画像
+  S10: まとめ
+bgm:
+  default: main
+  scenes: {S05: main_alt, S06: main_alt, S07: main_alt, S08: main_alt, S09: main_alt, S10: outro}
+user_dict:                       # config/readings.yaml の共通分に足す
+  - [IHDR, アイエイチディーアール, 8]
+  - [IDAT, アイダット, 0]
+  - [IEND, アイエンド, 0]
+  - [zlib, ゼットリブ, 0]
+  - [DEFLATE, デフレート, 3]
+  - [LZ77, エルゼットナナジュウナナ, 8]
+  - [Paeth, ペース, 1]
+  - [CRC, シーアールシー, 0]
+  - [None, ナン, 1]
+  - [Sub, サブ, 1]
+  - [Up, アップ, 1]
+  - [Average, アベレージ, 1]
+  - [a, エー, 1]
+  # 数字＋英字は数字として読まれる（0A→ゼロアンペア）ので、reading_fix でカタカナにしてからここで拾う
+  - [ゼロディー, ゼロディー, 3]
+  - [ゼロエー, ゼロエー, 3]
+  - [イチエー, イチエー, 3]
+  - [ハチキュー, ハチキュー, 3]
+  - [ヨンイー, ヨンイー, 3]
+reading_fix:
+  - [0D, ゼロディー]
+  - [0A, ゼロエー]
+  - [1A, イチエー]
+  - [4E, ヨンイー]
+  - ["89", ハチキュー]
+voice:                           # 公開版を作ったときの間の取り方（その後の改良は config/voice.yaml）
+  gaps: {same: 0.32, switch: 0.5, answer: 0.5, head: 0.6, tail: 1.0}
+  sentence_pause: null
+  revoice: []

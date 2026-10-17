@@ -1,0 +1,20 @@
+[project]
+name = "zundamon-explainer"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+    "budoux>=0.9.3",
+    "manim>=0.22.0",
+    "numpy>=2.5.4",
+    "pillow>=12.3.0",
+    "pyloudnorm>=0.2.0",
+    "pyyaml>=6.0.3",
+    "requests>=2.34.2",
+    "scipy>=1.18.1",
+    "soundfile>=0.14.0",
+]
+
+[project.optional-dependencies]
+psd = [
+    "psd-tools>=1.25.0",
+]

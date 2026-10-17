@@ -1,0 +1,16 @@
+# videos/<name>/video.yaml の雛形。共通の設定（config/*.yaml）に足す・上書きするものだけを書く。
+slug: example                    # 出力のファイル名（build/out/example_video.mp4）
+title: ""                        # 公開に使ったタイトル（docs/publishing.md）
+youtube: ""                      # 公開後の URL
+thumbnail: ""                    # tools/thumbnail.py の案のうち、公開に使ったもの（A, B, …）
+description: |
+  （概要欄の説明。1〜3 行。題材の驚きの数字・扱う内容・「画面の数値はすべて実物のファイルから計算した値です」）
+chapters:                        # シーン → チャプター名
+  S01: ""
+extra_credits: []                # 例：[[写真, ["Chelsea the cat（Stefan van der Walt, CC0）"]]]
+bgm:
+  default: main                  # assets/bgm/<曲>.mp3（config/assets.yaml）
+  scenes: {}                     # 例：{S05: main_alt, S10: outro}
+user_dict: []                    # 例：[[LZW, エルゼットダブリュー, 7]]（表記, 読み, アクセント核）
+reading_fix: []                  # 例：[[0A, ゼロエー]]（正規表現, 置き換え）
+# voice:                         # config/voice.yaml の上書き（間の長さなど）。普段は書かない

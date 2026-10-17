@@ -1,0 +1,27 @@
+# GIF 編（第 3 作）。公開済み：https://youtu.be/1bv3UpIbnM4
+slug: gif
+title: GIFは「辞書」で縮む！？動く画像の中身を1バイトずつのぞいてみた【ずんだもん解説】
+youtube: https://youtu.be/1bv3UpIbnM4
+thumbnail: B
+description: |
+  8枚の絵でできた動くスタンプが、たった約2万8千バイト。GIFはどうやって小さくして、どうやって動いているのか？
+  色の表（パレット）・ディザ・LZW 圧縮・コマの差分まで、実際のGIFファイルを自前で読み解いて、高校生にも分かるように解説します。
+  画面の数値は、すべて実物のファイルから計算した値です。PNG編・JPEG編とあわせてどうぞ。
+chapters:
+  S01: 動くスタンプの謎
+  S02: ファイルの中身
+  S03: 色の表（パレット）
+  S04: 256色の限界とディザ
+  S05: LZW 圧縮
+  S06: 符号の長さ
+  S07: 動くしくみ
+  S08: 実験：GIF・PNG・JPEG
+  S09: まとめ
+extra_credits:
+  - [写真, ["Chelsea the cat（Stefan van der Walt, CC0）／scikit-image のサンプル画像"]]
+bgm:
+  default: main
+  scenes: {S05: main_alt, S06: main_alt, S07: main_alt, S08: main_alt, S09: main_alt}
+user_dict:
+  - [LZW, エルゼットダブリュー, 7]
+  - [LZ77, エルゼットナナジュウナナ, 8]
