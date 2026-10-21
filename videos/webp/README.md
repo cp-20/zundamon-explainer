@@ -17,6 +17,7 @@
 | `tools/webpanalyze.py` | RIFF の箱を分けて、上の 2 つで読む。動く WebP のコマも |
 | `tools/vp8tables.py` | VP8 の定数表 (RFC 6386 の参照デコーダから) |
 | `tools/check_decoder.py` | 自前の復号器と dwebp・Pillow の突き合わせ |
+| `tools/thumbnail.py` | サムネの案 (公開は M) |
 | `tools/make_data.py` | 猫の写真の WebP・JPEG と、ずんだもんのイラスト・動くスタンプの WebP を作る |
 
 ## データの用意
