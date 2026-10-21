@@ -20,3 +20,8 @@ videos/jpeg/data/zundamon.png
 videos/jpeg/data/zunda_white.png
 videos/jpeg/data/zunda_q80.jpg
 videos/gif/data/zunda_anim.gif
+
+videos/webp/data/zunda.png
+videos/webp/data/zunda_lossless.webp
+videos/webp/data/zunda_q80.webp
+videos/webp/data/zunda_anim.webp

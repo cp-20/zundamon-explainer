@@ -34,6 +34,7 @@ Manim と VOICEVOX で作るためのリポジトリ。このファイルはエ�
 uv sync                                   # 依存 (Python は必ず uv 経由で動かす)
 uv run python tools/fetch_assets.py       # BGM・効果音・フォント (立ち絵は docs/setup.md)
 bin/voice.sh gif                          # 台詞の音声と時刻表 (VOICEVOX が必要)
+uv run python tools/plan_view.py gif       # PLAN.md を対話形式の HTML に (build/plan.html。台詞の確認用)
 bin/pipeline.sh gif S05                   # 1 シーンの試し (540p)：描画→合成→音→検査→シート
 bin/pipeline.sh gif S05 --line S05_18     # 直した台詞のあたりだけ (十数秒で見られる)
 bin/build_all.sh gif                      # 通し (1080p)

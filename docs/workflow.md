@@ -21,6 +21,7 @@
 - 台詞と画面の案をシーンごとに書く。書式と台詞の作り方は [script-writing.md](script-writing.md)。
 - 動画の構成：日常的な場面から入るフック → 仕組みを順に → 実験・比較 → まとめ → クレジット。
 - 書いたら `bin/voice.sh <name>` で音声を作り、全台詞の読み (`kana`) を確かめて直す ([audio-and-subtitles.md](audio-and-subtitles.md))。
+- 依頼者には `tools/plan_view.py <name>` の HTML (表情つきの顔・ふりがな・画面の案・読み) で台詞を見てもらう。
 
 ## 3. 見本のシーンを 1 つ作って確認をもらう
 
