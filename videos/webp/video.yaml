@@ -1,12 +1,17 @@
-# WebP 編 (第 4 作)
+# WebP 編 (第 4 作)。公開済み：https://youtu.be/pWV0v-tolTU
 slug: webp
 title: 同じ写真が3割小さい！？WebPがJPEGに勝てる理由を1バイトずつ読んでみた【ずんだもん解説】
-youtube: ""
+youtube: https://youtu.be/pWV0v-tolTU
 thumbnail: M
 description: |
   同じ写真が、JPEGだと23,693バイト、WebPだと16,974バイト。見た目のずれはほとんど同じなのに、なぜ3割も小さいのか？
   動画の技術から来た「となりから予想」、4×4の波、1ビットより細かく書ける算術符号、ループフィルタ、そして可逆のWebPのコピーと「最近の色の表」まで。実際のWebPファイルを自前で読み解いて、高校生にも分かるように解説します。
   画面の数値は、すべて実物のファイルから計算した値です。PNG編・JPEG編・GIF編とあわせてどうぞ。
+
+  ■ シリーズ
+  PNG編：https://youtu.be/BhYgIYsvkBo
+  JPEG編：https://youtu.be/dZP4YsrL6nw
+  GIF編：https://youtu.be/1bv3UpIbnM4
 chapters:
   S01: WebPって何？
   S02: ファイルの中身
