@@ -53,4 +53,5 @@
 ## 7. 公開の準備
 
 - タイトル案とサムネ案を複数出す ([publishing.md](publishing.md))。依頼者が選んだものを `video.yaml` に書く。
+- YouTube へは非公開でアップロードし、確かめてもらってから公開する ([publishing.md](publishing.md) の「YouTube へのアップロード」)。
 - 動画ファイル・サムネ・概要欄は GitHub の Release に置く (リポジトリには入れない)。

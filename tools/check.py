@@ -145,19 +145,24 @@ def check(sid):
                 if inter(a, b, 2) > 0 and not contains(a, b) and not contains(b, a):
                     add("枠線の交差", t, f"{closed[i]['cls']} {[round(v) for v in a]} と {closed[j]['cls']} {[round(v) for v in b]}")
 
-    # 一瞬だけ出る文字
+    # 一瞬だけ出る文字。同じオブジェクトの文字が書き換わるときは、途中の文字は 1.5 秒、最後の文字は 2.5 秒 (長い文は 0.15 秒/字)
     life = defaultdict(float)
     first = {}
+    chain = defaultdict(list)
     for st in log["states"]:
         for it in st["items"]:
             if it["kind"] == "text":
                 k = (it["id"], it["text"])
                 life[k] += st["t1"] - st["t0"]
                 first.setdefault(k, st["t0"])
+                if it["text"] not in chain[it["id"]]:
+                    chain[it["id"]].append(it["text"])
     for (i, txt), d in life.items():
-        need = max(1.0, 0.12 * len(txt or ""))
-        if d < need:
-            add("一瞬の文字", first[(i, txt)], f"「{txt}」が {d:.2f}s しか出ない（{need:.1f}s 必要）")
+        final = chain[i][-1] == txt
+        need = max(2.5, 0.15 * len(txt or "")) if final else 1.5
+        if d < need - 0.05:
+            add("一瞬の文字", first[(i, txt)],
+                f"「{txt}」が {d:.2f}s しか出ない（{'' if final else '途中の文字は '}{need:.1f}s 必要）")
 
     # 同期
     for lt in log["late"]:
