@@ -13,6 +13,8 @@
 | PNG 編：6.9MBの画像が333KBに！？1バイトも消えないPNG圧縮の仕組み | https://youtu.be/BhYgIYsvkBo | [Release png-v1](../../releases/tag/png-v1) |
 | JPEG 編：写真は「波」でできている！？JPEG圧縮の仕組みをやさしく解説 | https://youtu.be/dZP4YsrL6nw | [Release jpeg-v1](../../releases/tag/jpeg-v1) |
 | GIF 編：GIFは「辞書」で縮む！？動く画像の中身を1バイトずつのぞいてみた | https://youtu.be/1bv3UpIbnM4 | [Release gif-v1](../../releases/tag/gif-v1) |
+| WebP 編：同じ写真が3割小さい！？WebPがJPEGに勝てる理由を1バイトずつ読んでみた | https://youtu.be/pWV0v-tolTU | [Release webp-v1](../../releases/tag/webp-v1) |
+| HEIC 編：謎の拡張子HEIC、実はWebPより2割小さかった | https://youtu.be/-Aqzhf8QRy0 | [Release heic-v1](../../releases/tag/heic-v1) |
 
 それぞれの台詞・シーン・解析器は [videos/](videos/) にある。
 
