@@ -1,0 +1,43 @@
+# HEIC 編 (第 5 作)
+slug: heic
+title: 謎の拡張子HEIC、実はWebPより2割小さかった【ずんだもん解説】
+youtube: ""
+thumbnail: V3
+description: |
+  同じ写真が、JPEGだと23,693バイト、WebPだと16,974バイト、HEICだと13,368バイト。iPhoneの写真の形式HEICは、なぜここまで小さいのか？
+  箱の中に箱が入ったHEIFのファイル、写真に合わせて大きさを変えるブロック、35通りの予想とその向きの予想、確率を覚えながら書くCABAC、山と谷をならすSAOまで。実際のHEICファイルを自前で読み解いて、高校生にも分かるように解説します。
+  画面の数値は、すべて実物のファイルから計算した値です。PNG編・JPEG編・GIF編・WebP編とあわせてどうぞ。
+
+  ■ シリーズ
+  PNG編：https://youtu.be/BhYgIYsvkBo
+  JPEG編：https://youtu.be/dZP4YsrL6nw
+  GIF編：https://youtu.be/1bv3UpIbnM4
+  WebP編：https://youtu.be/pWV0v-tolTU
+chapters:
+  S01: HEICって何？
+  S02: 箱の中身
+  S03: ブロックの大きさを選ぶ
+  S04: 35通りの予想
+  S05: 向きも予想する
+  S06: 波の大きさともう1つの波
+  S07: 確率を覚えながら書く
+  S08: 境目と波打ちを直す
+  S09: 箱の力
+  S10: 実験と弱点
+  S11: まとめ
+extra_credits:
+  - [写真, ["Chelsea the cat (Stefan van der Walt, CC0) / scikit-image のサンプル画像"]]
+bgm:
+  default: main
+  scenes: {S04: main_alt, S05: main_alt, S06: main_alt, S07: main_alt, S08: main_alt, S11: outro}
+user_dict:
+  - [HEIC, ヒーク, 1]
+  - [HEIF, ヒーフ, 1]
+  - [HEVC, エイチイーブイシー, 7]
+  - [CABAC, キャバック, 1]
+  - [SAO, エスエーオー, 5]
+  - [AVIF, エーブイアイエフ, 6]
+  - [iPhone, アイフォーン, 3]
+  - [WebP, ウェッピー, 1]
+  - [VP8, ブイピーエイト, 5]
+reading_fix: []

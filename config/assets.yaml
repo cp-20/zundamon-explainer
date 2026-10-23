@@ -32,6 +32,8 @@ fonts:
     MPLUSRounded1c-Bold.ttf: {family: M PLUS Rounded 1c, url: https://github.com/google/fonts/raw/main/ofl/mplusrounded1c/MPLUSRounded1c-Bold.ttf}
     MPLUSRounded1c-ExtraBold.ttf: {family: M PLUS Rounded 1c, url: https://github.com/google/fonts/raw/main/ofl/mplusrounded1c/MPLUSRounded1c-ExtraBold.ttf}
     DelaGothicOne-Regular.ttf: {family: Dela Gothic One, url: https://github.com/google/fonts/raw/main/ofl/delagothicone/DelaGothicOne-Regular.ttf}   # サムネだけに使う
+    Inter-Variable.ttf: {family: Inter, url: "https://github.com/google/fonts/raw/main/ofl/inter/Inter%5Bopsz,wght%5D.ttf"}   # サムネの英字 (字の中が潰れない極太)
+    NotoSansJP-Variable.ttf: {family: Noto Sans JP, url: "https://github.com/google/fonts/raw/main/ofl/notosansjp/NotoSansJP%5Bwght%5D.ttf"}   # サムネの和文
     JetBrainsMono-Regular.ttf: {family: JetBrains Mono, url: https://github.com/JetBrains/JetBrainsMono/releases/download/v2.304/JetBrainsMono-2.304.zip, member: fonts/ttf/JetBrainsMono-Regular.ttf}
     JetBrainsMono-Bold.ttf: {family: JetBrains Mono, url: https://github.com/JetBrains/JetBrainsMono/releases/download/v2.304/JetBrainsMono-2.304.zip, member: fonts/ttf/JetBrainsMono-Bold.ttf}
 characters:
