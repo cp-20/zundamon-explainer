@@ -1,0 +1,36 @@
+{
+  "settings": {
+    "jpeg": "Pillow quality=80",
+    "webp": "Pillow quality=80",
+    "heic": "pillow-heif quality=45",
+    "avif": "Pillow quality=60"
+  },
+  "image": "cat.png 451x300",
+  "machine": "x86_64",
+  "pillow_heif": "1.8.1",
+  "pillow": "12.3.0",
+  "jpeg": {
+    "median_s": 0.0006031629745848477,
+    "min_s": 0.0005267140222713351,
+    "runs": 45
+  },
+  "webp": {
+    "median_s": 0.019898900005500764,
+    "min_s": 0.017736395995598286,
+    "runs": 45
+  },
+  "heic": {
+    "median_s": 0.15941712199128233,
+    "min_s": 0.1328653359960299,
+    "runs": 45
+  },
+  "avif": {
+    "median_s": 0.09608178699272685,
+    "min_s": 0.08275898499414325,
+    "runs": 45
+  },
+  "heic_over_jpeg": 264.30190298237034,
+  "webp_over_jpeg": 32.99091761923387,
+  "avif_over_jpeg": 159.2965600364631,
+  "avif_over_heic": 0.602706822156663
+}

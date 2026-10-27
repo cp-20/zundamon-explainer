@@ -1,5 +1,8 @@
 """YouTube のサムネイル（1280×720）を作るときの共通部品。docs/publishing.md を参照。
 
+HEIC 編から：type_text() (字間を調べられる文字・Inter と Noto Sans JP の極太)、zunda_cut()・place_char() (立ち絵を縁の光で浮かせる)、
+badge() (傾いたスタンプ)、hud() (照準の角の印)。
+
     from zunda.thumb import W, H, FONT, MONO, YELLOW, ZCOL, MCOL, chara, text
 
 伸びている動画のサムネの作り (WebP 編で参考にしたもの) の部品：
@@ -204,3 +207,133 @@ def mark(img, xy, ok, r=58):
         k = r * 0.5
         d.line([(x - k, y - k), (x + k, y + k)], fill=(255, 255, 255), width=16)
         d.line([(x - k, y + k), (x + k, y - k)], fill=(255, 255, 255), width=16)
+
+
+# ---------------- HEIC 編で作り直した文字と立ち絵の描き方 (videos/heic/tools/thumbnail.py から) ----------------
+INTER = str(ASSETS / "fonts/Inter-Variable.ttf")       # 英字：字の中の空きが大きく、極太でも潰れない
+NOTO = str(ASSETS / "fonts/NotoSansJP-Variable.ttf")    # 和文
+
+
+def vfont(path, size, weight=900):
+    f = ImageFont.truetype(path, size)
+    axes = f.get_variation_axes()
+    vals = []
+    for ax in axes:
+        nm = ax["name"]
+        if nm in (b"Weight", "Weight"):
+            vals.append(weight)
+        elif nm in (b"Optical size", "Optical size"):
+            vals.append(ax["maximum"])
+        else:
+            vals.append(ax["default"])
+    f.set_variation_by_axes(vals)
+    return f
+
+
+def type_text(img, xy, s, path, size, fill=((255, 255, 255), (255, 255, 255)), stroke=((14, 12, 20), 0.06),
+              weight=900, tracking=0.0, anchor="la", shadow=0.8, glow=None):
+    """字間 (tracking：字の大きさに対する割合) を調べられる文字。fill は縦のグラデーション (上, 下)、
+    stroke は (色, 太さの割合)。glow=(色, ぼかし) で外側をほんのり光らせる"""
+    f = vfont(path, size, weight)
+    tmp = ImageDraw.Draw(Image.new("L", (1, 1)))
+    adv = [tmp.textlength(ch, font=f) for ch in s]
+    total = sum(adv) + tracking * size * (len(s) - 1)
+    asc, desc = f.getmetrics()
+    x0 = xy[0] - (total if anchor[0] == "r" else total / 2 if anchor[0] == "m" else 0)
+    y0 = xy[1]
+    sw = max(1, round(size * stroke[1])) if stroke else 0
+
+    def draw_all(d, **kw):
+        x = x0
+        for ch, a in zip(s, adv):
+            d.text((x, y0), ch, font=f, **kw)
+            x += a + tracking * size
+    mask = Image.new("L", (W, H), 0)
+    draw_all(ImageDraw.Draw(mask), fill=255)
+    outl = Image.new("L", (W, H), 0)
+    draw_all(ImageDraw.Draw(outl), fill=255, stroke_width=sw, stroke_fill=255)
+    if glow:
+        gl = Image.new("RGBA", (W, H), glow[0] + (0,))
+        gl.putalpha(outl.filter(ImageFilter.GaussianBlur(glow[1])))
+        img.alpha_composite(gl)
+        img.alpha_composite(gl)
+    if shadow:
+        sh = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+        sh.putalpha(outl.point(lambda v: int(v * shadow)))
+        sh = sh.transform((W, H), Image.AFFINE, (1, 0, -round(size * 0.04), 0, 1, -round(size * 0.06)))
+        img.alpha_composite(sh.filter(ImageFilter.GaussianBlur(max(2, size * 0.05))))
+    if stroke:
+        st = Image.new("RGBA", (W, H), stroke[0] + (255,))
+        st.putalpha(outl)
+        img.alpha_composite(st)
+    bb = mask.getbbox() or (0, 0, 1, 1)
+    g = np.clip((np.arange(H)[:, None] - bb[1]) / max(1, bb[3] - bb[1]), 0, 1)
+    top, bot = np.array(fill[0], float), np.array(fill[1], float)
+    grad = (top * (1 - g[..., None]) + bot * g[..., None]).astype(np.uint8)
+    gi = Image.fromarray(np.dstack([np.broadcast_to(grad, (H, W, 3)), np.full((H, W), 255, np.uint8)]), "RGBA")
+    gi.putalpha(mask)
+    img.alpha_composite(gi)
+    return bb
+
+
+def zunda_cut(expr="驚", mouth="open", h=420, flip=False, box=(170, 20, 950, 980)):
+    """立ち絵を切り抜いたもの (白いステッカーの縁はつけない)"""
+    from zunda import character
+    from zunda.compose import BASE, EXPR, MOUTH
+    st = dict(BASE["Z"]); st.update(EXPR["Z"][expr]); st["!口"] = MOUTH["Z"][mouth]
+    im = character.render("zundamon", st).crop(box)
+    im = im.crop(im.getbbox())
+    im = im.resize((round(im.width * h / im.height), h), Image.LANCZOS)
+    return im.transpose(Image.FLIP_LEFT_RIGHT) if flip else im
+
+
+def place_char(img, ch, xy, rim=(150, 235, 255), shadow=0.75):
+    """立ち絵を置く：落ち影と、背景から浮かせるための細い縁の光 (白い縁取りの代わり)"""
+    a = ch.split()[3]
+    layer = Image.new("L", (W, H), 0)
+    layer.paste(a, xy)
+    sh = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    sh.putalpha(layer.point(lambda v: int(v * shadow)))
+    sh = sh.transform((W, H), Image.AFFINE, (1, 0, -10, 0, 1, -8))
+    img.alpha_composite(sh.filter(ImageFilter.GaussianBlur(14)))
+    if rim:
+        rl = Image.new("RGBA", (W, H), rim + (0,))
+        rl.putalpha(layer.filter(ImageFilter.MaxFilter(7)).filter(ImageFilter.GaussianBlur(6)).point(lambda v: int(v * 0.9)))
+        img.alpha_composite(rl)
+    img.alpha_composite(ch, xy)
+
+
+def hud(img, c, r, color=(150, 235, 255), arm=0.32, width=6):
+    """照準の角の印 (中心 c、半径 r)"""
+    layer = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    d = ImageDraw.Draw(layer)
+    x0, y0, x1, y1 = c[0] - r, c[1] - r, c[0] + r, c[1] + r
+    L = r * 2 * arm
+    for (x, y, sx, sy) in ((x0, y0, 1, 1), (x1, y0, -1, 1), (x0, y1, 1, -1), (x1, y1, -1, -1)):
+        d.line([(x, y), (x + sx * L, y)], fill=color + (255,), width=width)
+        d.line([(x, y), (x, y + sy * L)], fill=color + (255,), width=width)
+    img.alpha_composite(layer.filter(ImageFilter.GaussianBlur(6)))
+    img.alpha_composite(layer)
+
+
+def badge(img, center, lines, size, angle=5, fill=(228, 32, 44)):
+    """スタンプ (和文の極太は Noto Sans JP の Black。字の中が潰れない)"""
+    f = vfont(NOTO, size, 900)
+    tmp = ImageDraw.Draw(Image.new("L", (1, 1)))
+    widths = [tmp.textlength(t, font=f) for t in lines]
+    lh = round(size * 1.12)
+    bw, bh = round(max(widths) + size * 0.9), round(lh * len(lines) + size * 0.5)
+    box = Image.new("RGBA", (bw + 40, bh + 40), (0, 0, 0, 0))
+    bd = ImageDraw.Draw(box)
+    bd.rounded_rectangle((20, 20, 20 + bw, 20 + bh), round(size * 0.3), fill=fill, outline=(255, 255, 255), width=7)
+    for i, t in enumerate(lines):
+        bd.text((20 + bw / 2, 20 + size * 0.2 + i * lh), t, font=f, fill=(255, 255, 255), anchor="ma")
+    box = box.rotate(angle, resample=Image.BICUBIC, expand=True)
+    pos = (round(center[0] - box.width / 2), round(center[1] - box.height / 2))
+    sh = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    a = box.split()[3]
+    shl = Image.new("L", (W, H), 0)
+    shl.paste(a, (pos[0] + 8, pos[1] + 12))
+    sh.putalpha(shl.point(lambda v: int(v * 0.7)))
+    img.alpha_composite(sh.filter(ImageFilter.GaussianBlur(9)))
+    img.alpha_composite(box, pos)
